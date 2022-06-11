@@ -7,14 +7,16 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
     "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.13",
     "@vue/cli-service": "~4.5.13",
-    "less": "^3.0.4",
+    "less": "^3.13.1",
     "less-loader": "^5.0.0",
+    "vue-socket.io": "^3.0.10",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [

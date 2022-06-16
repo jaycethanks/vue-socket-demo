@@ -5,35 +5,23 @@
     </button> -->
 
     <div class="chat-panel">
-      <div class="easy">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-        consequuntur natus tempora aliquam culpa ipsa, quidem necessitatibus
-        inventore quis aut dolorum facere mollitia deserunt, consectetur nostrum
-        eum temporibus asperiores. Dolorum. Neque facere aspernatur molestiae,
-        ducimus quos aliquam officiis aperiam commodi at laboriosam atque
-        impedit suscipit accusamus hic, voluptas fuga ab! Vel accusantium
-        eligendi sint sapiente laboriosam quae eveniet, facilis ab! Vero
-        officiis quos placeat rem? Quos, neque. Sapiente, assumenda natus dolor
-        blanditiis expedita magnam alias minima, architecto placeat debitis
-        veniam exercitationem consequatur delectus autem amet totam, optio at
-        perferendis? Quas. Eligendi veniam reprehenderit ullam, aliquam corporis
-        at accusamus animi aspernatur iusto quia harum quo impedit non explicabo
-        soluta? Temporibus impedit harum quam numquam laboriosam, praesentium
-        necessitatibus autem delectus obcaecati provident? Tempore pariatur
-        officiis eveniet, numquam, omnis asperiores harum recusandae dolorum ea
-        molestiae corrupti fugit odio iusto. Excepturi, culpa, incidunt
-        molestiae aliquam rem neque nostrum voluptatibus vel quos sunt hic
-        eveniet. Inventore dicta mollitia fugit dolore consequuntur veniam nisi
-        minima, voluptas sed delectus voluptatum rem, quaerat velit totam
-        dolorum praesentium nam assumenda earum blanditiis iusto magni fuga. Sed
-        natus delectus eum! Ipsum pariatur sapiente voluptate nobis in
-        repudiandae autem, esse tenetur veritatis architecto? Deleniti illum,
-        esse nobis veniam corporis odit provident totam, nam quaerat enim quod
-        facere quo vitae laboriosam odio! Tempore, voluptatibus, sed ratione
-        dolorem vitae eos itaque optio quia beatae repellat eaque, quod nemo
-        molestiae aut perferendis modi consequatur. Incidunt vitae nostrum
-        necessitatibus minima a optio delectus obcaecati natus! Expedita laborum
-        dolorum vitae quo nobis deserunt totam earum nemo
+      <div class="chat-content">
+        <ul>
+          <li v-for="i in list" :key="i.id">
+            <div class="msg-item">
+              <div class="avatar-container"></div>
+              <div class="msg-container">
+                <div class="msg">{{ i.message }}</div>
+                <div class="time"></div>
+              </div>
+            </div>
+            <p class="time-text">
+              Sun Aug 22 2021 00:59:01 GMT+0800 (中国标准时间)
+            </p>
+          </li>
+        </ul>
+      </div>
+      <!-- <div class="easy">
         <p style="display: flex; gap: 20px; margin-top: 40px">
           <button
             class="ant-button"
@@ -65,7 +53,7 @@
             info
           </button>
         </p>
-      </div>
+      </div> -->
     </div>
 
     <transition
@@ -98,7 +86,7 @@
 </template>
 
 <script>
-// import "@/components/Noticer/createNoticer.js";
+import NiceAvatar from "vue-nice-avatar";
 export default {
   name: "ChatWrapper",
   props: {
@@ -106,14 +94,39 @@ export default {
   },
   data() {
     return {
-      showModal: true,
+      showModal: false,
       nickname: "",
+      websock: null,
+      list: [
+        { id: 1, message: "hello!" },
+        { id: 2, message: "hello!" },
+        { id: 3, message: "hello!" },
+        { id: 4, message: "hello!" },
+        { id: 5, message: "hello!" },
+      ],
     };
   },
   mounted() {
-    var socket = io();
+    this.websock = new WebSocket("ws://localhost:3200");
+    this.websock.onopen = this.websocketOnopen;
+    this.websock.onerror = this.websocketOnerror;
+    this.websock.onmessage = this.websocketOnmessage;
+    this.websock.onclose = this.websocketOnclose;
   },
+
   methods: {
+    websocketOnopen(e) {
+      console.log("open:: ", e);
+    },
+    websocketOnerror(e) {
+      console.error(e);
+    },
+    websocketOnmessage(e) {
+      console.log("message:: ", e);
+    },
+    websocketOnclose(e) {
+      console.log("close:: ", e);
+    },
     toggleModal() {
       this.showModal = !this.showModal;
     },
@@ -154,10 +167,56 @@ export default {
   overflow: hidden;
   .chat-panel {
     display: flex;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    overflow-y: auto;
+    flex-direction: column;
+    height: 80vh;
+    width: 800px;
+    margin-left: 50%;
+    margin-top: 100px;
+    transform: translate(-50%);
+    border-radius: 5px;
+    padding: 30px 20px;
+    box-shadow: 0px 0px 20px 20px #e6e6e6 inset;
+    ul {
+      display: block;
+      li {
+        height: 48px;
+        font-size: 16px;
+        list-style: none;
+        margin: 10px 20px;
+        // box-shadow: 0 0 4px 2px #f4f4f4;
+        border: 1px solid red;
+        display: flex;
+        flex-direction: column;
+        &:nth-child(odd) {
+          background: #efefef;
+        }
+        .msg-item {
+          display: flex;
+          .avatar-container {
+            width: 50px;
+            height: 50px;
+            background-color: rgb(255, 188, 164);
+          }
+          .msg-container {
+            height: 100%;
+            width: 100%;
+            .msg {
+              height: 36px;
+            }
+          }
+        }
+        .time-text {
+          font-size: 12px;
+          text-align: center;
+        }
+      }
+    }
+
+    // overflow-y: auto;
+
+    .chat-content {
+      // border: 1px solid rgb(255, 22, 22);
+    }
     .easy {
       width: 80%;
       margin: 100px;

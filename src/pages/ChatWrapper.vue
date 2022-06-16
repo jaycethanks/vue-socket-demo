@@ -9,7 +9,9 @@
         <ul>
           <li v-for="i in list" :key="i.id">
             <div class="msg-item">
-              <div class="avatar-container"></div>
+              <div class="avatar-container">
+                <avatar username="Jane Doe"></avatar>
+              </div>
               <div class="msg-container">
                 <div class="msg">{{ i.message }}</div>
                 <div class="time"></div>
@@ -21,76 +23,19 @@
           </li>
         </ul>
       </div>
-      <!-- <div class="easy">
-        <p style="display: flex; gap: 20px; margin-top: 40px">
-          <button
-            class="ant-button"
-            @click="
-              handleNotice(
-                'success',
-                '成功了成功了成功了成功了成功了成功了成功了成功了成功了'
-              )
-            "
-          >
-            success
-          </button>
-          <button
-            class="ant-button"
-            @click="handleNotice('error', '错误了错误了错误了')"
-          >
-            error
-          </button>
-          <button
-            class="ant-button"
-            @click="handleNotice('warn', '告警了告警了')"
-          >
-            warn
-          </button>
-          <button
-            class="ant-button"
-            @click="handleNotice('info', '只是个提示通知啦')"
-          >
-            info
-          </button>
-        </p>
-      </div> -->
     </div>
-
-    <transition
-      enter-active-class="animate__animated animate__fadeIn"
-      leave-active-class="animate__animated animate__fadeOut"
-    >
-      <div class="register-modal-wrapper" v-if="showModal"></div>
-    </transition>
-
-    <transition
-      enter-active-class="animate__animated animate__bounceIn"
-      leave-active-class="animate__animated animate__bounceOutUp"
-    >
-      <div class="register__box" v-if="showModal">
-        <p style="text-align: center">
-          <span class="register__box--title">英雄留名！！！🙈🍉🍉🍉</span>
-        </p>
-        <p style="text-align: center">
-          <input
-            class="ant-input"
-            v-model="nickname"
-            id="nickname"
-            type="text"
-          />
-        </p>
-        <button class="ant-button" @click="handleOk">👌 确定</button>
-      </div>
-    </transition>
   </div>
 </template>
 
 <script>
-import NiceAvatar from "vue-nice-avatar";
+import Avatar from "vue-avatar";
 export default {
   name: "ChatWrapper",
   props: {
     msg: String,
+  },
+  components: {
+    Avatar,
   },
   data() {
     return {
@@ -220,45 +165,6 @@ export default {
     .easy {
       width: 80%;
       margin: 100px;
-    }
-  }
-
-  .register-modal-wrapper {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 2000;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000000ad;
-    overflow: hidden;
-  }
-  .register__box {
-    z-index: 2010;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-left: -250px;
-    margin-top: -150px;
-    font-size: 24px;
-    font-weight: bold;
-    width: 500px;
-    height: 300px;
-    // border: 1px solid red;
-    border-radius: 8px;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 30px;
-    .register__box--title {
-      user-select: none;
     }
   }
 
